@@ -70,10 +70,56 @@ exports.updateArticle = async (req, res) => {
   }
 };
 
+exports.updateArticleComment = async (req, res) => {
+  try {
+    const article = await Article.findByIdAndUpdate(
+      req.params.id,
+      { $addToSet: { comments: [req.body] } },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+    res.status(200).json({
+      status: 'success',
+      data: { article }
+    });
+
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: "URL NOT FOUND"
+    })
+  }
+};
+
+exports.deleteArticleComment = async (req, res) => {
+  try {
+    const article = await Article.findByIdAndUpdate(
+      req.params.id,
+      { $pop: { comments: 1 } },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+    res.status(200).json({
+      status: 'success',
+      data: { article }
+    });
+
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: "URL NOT FOUND"
+    })
+  }
+};
+
 exports.deleteArticle = async (req, res) => {
   try {
     await Article.findByIdAndDelete(req.params.id);
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
       message: "Article Deleted Successful!"
     });

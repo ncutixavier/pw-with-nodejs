@@ -3,6 +3,9 @@ const articleController = require('./../controllers/articleControllers')
 const authController = require('./../controllers/authControllers')
 const router = express.Router()
 
+router.patch('/comment/:id', articleController.updateArticleComment)
+router.patch('/deleteComment/:id', articleController.deleteArticleComment)
+
 router
   .route('/')
   .get(articleController.getAllArticle)
