@@ -15,7 +15,11 @@ router
   .route('/:id')
   .get(articleController.getArticle)
   .patch(authController.protect, articleController.updateArticle)
-  .delete(authController.protect, articleController.deleteArticle)
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin'),
+    articleController.deleteArticle
+  )
 
 
 module.exports = router

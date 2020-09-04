@@ -2,7 +2,15 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
+
 const userSchema = new mongoose.Schema({
+
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
+
     name: {
         type: String,
         required: [true, 'Please tell us your name']

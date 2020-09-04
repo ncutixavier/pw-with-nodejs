@@ -18,20 +18,21 @@ exports.signup = async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm
+            passwordConfirm: req.body.passwordConfirm,
+            role: req.body.role
         })
 
         const token = signToken(newUser._id)
 
         res.status(201).json({
             status: 'success',
-            token,
+            // token,
             data: { newUser }
         })
     } catch (error) {
         res.status(404).json({
             status: 'fail',
-            message: "All fields are required"
+            message: error._message
         })
     }
 }
@@ -68,27 +69,6 @@ exports.login = async (req, res, next) => {
     })
 }
 
-const checkIfUserExist = user =>{
-    if (!user) {
-        return next(
-            res.status(401).json({
-                status: 'failed',
-                message: "The user belong to this token is no longer exist"
-            })
-        )
-    }
-} 
-
-const checkIfTokenExists = token => {
-    if (!token) {
-        return next(
-            res.status(401).json({
-                status: 'failed',
-                message: 'Please you may log in to get access'
-            })
-        )
-    }
-}
 
 exports.protect = async (req, res, next) => {
     // 1. Getting Token and check if it exists
@@ -97,14 +77,30 @@ exports.protect = async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1]
     }
     // console.log(token)
-    checkIfTokenExists(token)
-    try {
-        // 2. Verifying Token
-        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+    if (!token) {
+        return next(
+            res.status(401).json({
+                status: 'failed',
+                message: 'Please you may log in to get access'
+            })
+        )
 
-        // 3. Check if user still exists
-        const freshUser = await User.findById(decoded.id)
-        checkIfUserExist(freshUser)
+    }
+    // 2. Verifying Token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+
+    // 3. Check if user still exists
+    const freshUser = await User.findById(decoded.id)
+
+    try {
+        if (!freshUser) {
+            return next(
+                res.status(401).json({
+                    status: 'failed',
+                    message: "The user belong to this token is no longer exist"
+                })
+            )
+        }
 
 
     } catch (error) {
@@ -123,5 +119,20 @@ exports.protect = async (req, res, next) => {
             })
         )
     }
+    req.user = freshUser
     next()
+}
+
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(
+                res.status(403).json({
+                    status: 'failed',
+                    message: "You do not have permission to perform this action"
+                })
+            )
+        }
+        next()
+    }
 }
