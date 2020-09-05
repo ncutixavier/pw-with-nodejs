@@ -1,6 +1,6 @@
 const sendEmail = require('../utils/email')
 
-exports.sendEmail = async (req, res) => {
+exports.sendEmail = async (req, res, next) => {
     try {
         await sendEmail({
             name: req.body.name,
@@ -12,9 +12,12 @@ exports.sendEmail = async (req, res) => {
             message: "Message Sent!"
         })
     } catch (error) {
-        res.status(404).json({
-            status: 'fail',
-            message: error
-        })
+        return next(
+            res.status(404).json({
+                status: 'fail',
+                message: error
+            })
+        )
     }
+    next()
 }
