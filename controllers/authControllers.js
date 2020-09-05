@@ -53,6 +53,8 @@ exports.login = async (req, res, next) => {
     //Check is user exist && Password is correct
     const user = await User.findOne({ email: email }).select('+password')
 
+    const currentUser = User.findOne({ email: email })
+
     if (!user || !(await user.correctPassword(password, user.password))) {
         return next(
             res.status(401).json({
@@ -63,9 +65,11 @@ exports.login = async (req, res, next) => {
     }
     //If everything ok, send token to the client
     const token = signToken(user._id)
+
     res.status(200).json({
         status: 'success',
-        token
+        token,
+        user
     })
 }
 
