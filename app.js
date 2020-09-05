@@ -2,7 +2,6 @@
 // import morgan from 'morgan'
 const articleRouter = require('./routes/articleRoutes');
 const userRouter = require('./routes/userRoutes');
-const messageRouter = require('./routes/messageRoutes');
 const express = require('express')
 const morgan = require('morgan')
 
@@ -29,6 +28,5 @@ app.use(function(req, res, next) {
 
 app.use('/api/v1/blogs', articleRouter)
 app.use('/api/v1/users', userRouter)
-app.use('/api/v1/sendEmail', messageRouter)
 
 module.exports = app
