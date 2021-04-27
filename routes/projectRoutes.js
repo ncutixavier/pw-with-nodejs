@@ -1,5 +1,6 @@
 const express = require('express');
 const projectController = require('../controllers/projectControllers')
+const authController = require('./../controllers/authControllers')
 const multer = require('multer')
 const router = express.Router()
 
@@ -26,12 +27,12 @@ const upload = multer({
 router
     .route('/')
     .get(projectController.getAllProject)
-    .post(upload.single('image'), projectController.createNewProject)
+    .post(authController.protect, upload.single('image'), projectController.createNewProject)
 
 router
     .route('/:id')
-    // .delete(projectController.deleteProject)
-    .get(projectController.deleteProject)
-    .put(upload.single('image'), projectController.updateProject)
+    .delete(authController.protect, projectController.deleteProject)
+    // .get(projectController.deleteProject)
+    .put(authController.protect, upload.single('image'), projectController.updateProject)
 
 module.exports = router
