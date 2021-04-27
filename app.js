@@ -1,6 +1,7 @@
 // import express from 'express'
 // import morgan from 'morgan'
 const articleRouter = require('./routes/articleRoutes');
+const projectRouter = require('./routes/projectRoutes');
 const userRouter = require('./routes/userRoutes');
 const express = require('express')
 const morgan = require('morgan')
@@ -27,6 +28,7 @@ app.use(function(req, res, next) {
 
 
 app.use('/api/v1/blogs', articleRouter)
+app.use('/api/v1/projects', projectRouter)
 app.use('/api/v1/users', userRouter)
 
 module.exports = app
