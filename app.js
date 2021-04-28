@@ -31,4 +31,6 @@ app.use('/api/v1/blogs', articleRouter)
 app.use('/api/v1/projects', projectRouter)
 app.use('/api/v1/users', userRouter)
 
+app.use(express.static('public'));
+
 module.exports = app
