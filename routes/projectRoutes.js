@@ -27,12 +27,17 @@ const upload = multer({
 router
     .route('/')
     .get(projectController.getAllProject)
-    .post(authController.protect, upload.single('image'), projectController.createNewProject)
+    .post(authController.protect, projectController.createNewProject)
 
+// router
+//     .route('/:id')
+//     .delete(authController.protect, projectController.deleteProject)
+//     // .get(projectController.deleteProject)
+//     // .put(authController.protect, upload.single('image'), projectController.updateProject)
 router
-    .route('/:id')
-    .delete(authController.protect, projectController.deleteProject)
-    // .get(projectController.deleteProject)
-    .put(authController.protect, upload.single('image'), projectController.updateProject)
+  .route('/:id')
+  .delete(authController.protect, projectController.deleteProject)
+  .get(projectController.deleteProject)
+  .put(authController.protect, projectController.updateProject);
 
 module.exports = router

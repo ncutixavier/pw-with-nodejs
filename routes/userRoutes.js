@@ -4,7 +4,7 @@ const userController = require('./../controllers/userControllers')
 const messageController = require('./../controllers/messageControllers')
 const router = express.Router()
 
-router.post('/signup', authController.signup)
+router.post('/register', authController.signup)
 router.post('/login', authController.login)
 router.post('/sendEmail', messageController.sendEmail);
 
