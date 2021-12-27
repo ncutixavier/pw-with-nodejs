@@ -1,4 +1,5 @@
 const Project = require('./../models/projectModel');
+const updateStats = require('../utils/updateStats');
 const fs = require('fs');
 
 //create new project
@@ -12,6 +13,7 @@ exports.createNewProject = async (req, res) => {
       image: req.body.image || req.file.filename,
       date_created: Date.now(),
     });
+
     res.status(201).json({
       status: 'success',
       message: 'Project has been added successful!',
@@ -28,16 +30,19 @@ exports.createNewProject = async (req, res) => {
 exports.getAllProject = async (req, res, next) => {
   try {
     const projects = await Project.find().sort({ date_created: 'desc' }).exec();
-    res.status(200).json({
-      status: 'success',
-      Results: projects.length,
-      projects: projects,
-    });
+    if (projects.length > 0) {
+      updateStats.updateWebStats();
+      res.status(200).json({
+        status: 'success',
+        Results: projects.length,
+        projects: projects,
+      });
+    }
   } catch (error) {
     return next(
       res.status(404).json({
         status: 'fail',
-        message: 'URL NOT FOUND...',
+        message: error.message,
       })
     );
   }

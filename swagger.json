@@ -188,6 +188,18 @@
           }
         }
       }
+    },
+    "/api/v1/stats": {
+      "get": {
+        "tags": ["Stats"],
+        "summary": "Get stats",
+        "description": "Get stats",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "definitions": {

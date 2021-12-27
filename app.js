@@ -3,6 +3,7 @@
 const articleRouter = require('./routes/articleRoutes');
 const projectRouter = require('./routes/projectRoutes');
 const userRouter = require('./routes/userRoutes');
+const statsRouter = require('./routes/statsRoutes');
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/blogs', articleRouter)
 app.use('/api/v1/projects', projectRouter)
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/stats', statsRouter)
 
 app.use(express.static('public'));
 
