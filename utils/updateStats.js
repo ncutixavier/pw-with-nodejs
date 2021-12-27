@@ -1,5 +1,5 @@
 const Stats = require('../models/statsModel');
-const stats_id = '61c98aa5ecee321c34cf3fd0';
+const stats_id = '61ca156d6cc23b0570c15ec3';
 
 exports.updateWebStats = async (req, res) => {
   const stats = await Stats.findById(stats_id);

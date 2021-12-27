@@ -1,7 +1,7 @@
 const Article = require('./../models/articleModel');
 const updateStats = require('../utils/updateStats');
 const Stats = require('../models/statsModel');
-const stats_id = '61c98aa5ecee321c34cf3fd0';
+const stats_id = '61ca156d6cc23b0570c15ec3';
 
 exports.getAllArticle = async (req, res, next) => {
   try {
@@ -27,8 +27,8 @@ exports.getAllArticle = async (req, res, next) => {
 exports.getArticle = async (req, res) => {
   try {
     const article = await Article.findById(req.params.id);
-    const stats = await Stats.findById(stats_id);
     if (article) {
+      const stats = await Stats.findById(stats_id);
       let findStats = stats.visitors.articles.find(
         (stat) => stat.title === article.title
       );
@@ -46,8 +46,8 @@ exports.getArticle = async (req, res) => {
         });
       } else {
         stats.visitors.articles.forEach((stat) => {
-          if (stat.title === article.title) {
-            stat.views += 1;
+          if (stat.title === findStats.title) {
+            stat.views = stat.views + 1;
           }
         });
         await Stats.findByIdAndUpdate(stats_id, {
