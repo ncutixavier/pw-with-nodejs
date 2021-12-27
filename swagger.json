@@ -194,6 +194,15 @@
         "tags": ["Stats"],
         "summary": "Get stats",
         "description": "Get stats",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"

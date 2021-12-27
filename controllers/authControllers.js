@@ -1,6 +1,9 @@
 const { promisify } = require('util')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
+const stats = require('../models/statsModel');
+const Project = require('../models/projectModel');
+const Article = require('../models/articleModel');
 
 const signToken = id => {
     return jwt.sign(
@@ -138,3 +141,27 @@ exports.restrictTo = (...roles) => {
         next()
     }
 }
+
+exports.getAllStats = async (req, res, next) => {
+  try {
+    const getAllStats = await stats
+      .find()
+      .sort({ created_date: 'desc' })
+      .exec();
+    const projects = await Project.find();
+    const articles = await Article.find();
+    res.status(200).json({
+      status: 'success',
+      total_articles: articles.length,
+      total_projects: projects.length,
+      stats: getAllStats[0],
+    });
+  } catch (error) {
+    return next(
+      res.status(500).json({
+        status: 'fail',
+        message: error.message,
+      })
+    );
+  }
+};
