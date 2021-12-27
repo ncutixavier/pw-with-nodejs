@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
   .route('/')
-//   .post(statsController.createStats)
-  .get(authController.protect,  statsController.getAllStats);
+  //   .post(statsController.createStats)
+  .get(authController.protect, statsController.getAllStats);
 
 module.exports = router;
