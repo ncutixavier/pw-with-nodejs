@@ -51,29 +51,6 @@
         }
       }
     },
-    "/api/v1/users/register": {
-      "post": {
-        "tags": ["Users"],
-        "summary": "Register",
-        "description": "Register",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "User object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Register"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/v1/projects": {
       "get": {
         "tags": ["Projects"],
@@ -209,6 +186,128 @@
           }
         }
       }
+    },
+    "/api/v1/blogs": {
+      "get": {
+        "tags": ["Blogs"],
+        "summary": "Get all articles",
+        "description": "Get all articles",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Blogs"],
+        "summary": "Create an article",
+        "description": "Create an article",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Blog object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/blogs/{id}": {
+      "get": {
+        "tags": ["Blogs"],
+        "summary": "Get an article",
+        "description": "Get an article",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Blogs"],
+        "summary": "Update an article",
+        "description": "Update an article",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Blog object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Blogs"],
+        "summary": "Delete an article",
+        "description": "Delete an article",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -256,6 +355,20 @@
           "type": "string"
         },
         "passwordConfirm": {
+          "type": "string"
+        }
+      }
+    },
+    "Blog": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "image": {
           "type": "string"
         }
       }
