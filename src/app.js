@@ -8,7 +8,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+const swaggerDocument = require('../swagger.json');
 
 const app = express();
 app.use(express.json()); // Make sure it comes back as json

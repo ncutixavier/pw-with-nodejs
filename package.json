@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "start:dev": "nodemon server.js",
+    "dev": "nodemon --exec npx babel-node server.js",
     "start:prod": "NODE_ENV=production nodemon server.js"
   },
   "author": "Ncuti Xavier",

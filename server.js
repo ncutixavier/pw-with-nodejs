@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 dotenv.config({ path: './config.env' })
 
-const app = require('./app')
+const app = require('./src/app')
 
 //Get all env
 // console.log(process.env)
