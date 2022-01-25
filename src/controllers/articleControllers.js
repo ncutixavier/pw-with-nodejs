@@ -2,7 +2,6 @@ const Article = require('./../models/articleModel');
 const updateStats = require('../utils/updateStats');
 const Stats = require('../models/statsModel');
 const stats_id = '61ca156d6cc23b0570c15ec3';
-const sharp = require('sharp');
 
 exports.getAllArticle = async (req, res, next) => {
   try {
