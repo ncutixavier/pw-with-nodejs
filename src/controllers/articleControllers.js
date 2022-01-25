@@ -2,6 +2,7 @@ const Article = require('./../models/articleModel');
 const updateStats = require('../utils/updateStats');
 const Stats = require('../models/statsModel');
 const stats_id = '61ca156d6cc23b0570c15ec3';
+const sharp = require('sharp');
 
 exports.getAllArticle = async (req, res, next) => {
   try {
@@ -80,11 +81,11 @@ exports.createNewArticle = async (req, res) => {
   try {
     const newArticle = await Article.create({
       title: req.body.title,
-      image: req.body.image,
+      image: req.file.path || req.body.image,
       content: req.body.content,
     });
     res.status(201).json({
-      status: 'success',
+      status: 'created',
       data: { newArticle },
     });
   } catch (error) {

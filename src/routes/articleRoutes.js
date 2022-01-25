@@ -1,15 +1,20 @@
 const express = require('express');
 const articleController = require('./../controllers/articleControllers')
 const authController = require('./../controllers/authControllers')
+import upload from './../utils/uploadImage'
 const router = express.Router()
 
 router.patch('/comment/:id', articleController.updateArticleComment)
 router.patch('/deleteComment/:id', articleController.deleteArticleComment)
 
 router
-  .route('/')
+  .route("/")
   .get(articleController.getAllArticle)
-  .post(authController.protect, articleController.createNewArticle)
+  .post(
+    authController.protect,
+    upload.single("image"),
+    articleController.createNewArticle
+  );
 
 router
   .route('/:id')
@@ -17,7 +22,6 @@ router
   .patch(authController.protect, articleController.updateArticle)
   .delete(
     authController.protect,
-    authController.restrictTo('admin'),
     articleController.deleteArticle
   )
 
