@@ -1,0 +1,39 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon --exec npx babel-node server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js"
+  },
+  "author": "Ncuti Xavier",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.28.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^6.4.11",
+    "swagger-ui-express": "^4.2.0",
+    "util": "^0.12.3",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.16.4",
+    "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=10.16.0"
+  }
+}

@@ -1,0 +1,377 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Portifolio API",
+    "description": "Portifolio API Documentation",
+    "version": "1.0.0"
+  },
+  "server": [
+    {
+      "url": "http://localhost:3030",
+      "description": "Local server"
+    },
+    {
+      "url": "https://morning-thicket-92126.herokuapp.com/",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["Home"],
+        "summary": "Home",
+        "description": "Home",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login",
+        "description": "Login",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/projects": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "Get all projects",
+        "description": "Get all projects",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Projects"],
+        "summary": "Create a project",
+        "description": "Create a project",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Project object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{id}": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "Get a project",
+        "description": "Get a project",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of project to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Projects"],
+        "summary": "Update a project",
+        "description": "Update a project",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of project to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Project object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Projects"],
+        "summary": "Delete a project",
+        "description": "Delete a project",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of project to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/stats": {
+      "get": {
+        "tags": ["Stats"],
+        "summary": "Get stats",
+        "description": "Get stats",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/blogs": {
+      "get": {
+        "tags": ["Blogs"],
+        "summary": "Get all articles",
+        "description": "Get all articles",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Blogs"],
+        "summary": "Create an article",
+        "description": "Create an article",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Blog object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/blogs/{id}": {
+      "get": {
+        "tags": ["Blogs"],
+        "summary": "Get an article",
+        "description": "Get an article",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Blogs"],
+        "summary": "Update an article",
+        "description": "Update an article",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Blog object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Blogs"],
+        "summary": "Delete an article",
+        "description": "Delete an article",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Project": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "languages": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Register": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "passwordConfirm": {
+          "type": "string"
+        }
+      }
+    },
+    "Blog": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
