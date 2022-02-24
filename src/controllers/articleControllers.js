@@ -16,9 +16,9 @@ exports.getAllArticle = async (req, res, next) => {
     }
   } catch (error) {
     return next(
-      res.status(404).json({
-        status: 'fail',
-        message: 'URL NOT FOUND...',
+      res.status(500).json({
+        error: error.message,
+        message: 'Error occured while getting all articles',
       })
     );
   }
@@ -70,8 +70,8 @@ exports.getArticle = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({
-      status: 'fail',
-      message: error.message,
+      error: error.message,
+      message: 'Error occured while getting article',
     });
   }
 };
@@ -88,9 +88,9 @@ exports.createNewArticle = async (req, res) => {
       data: { newArticle },
     });
   } catch (error) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'URL NOT FOUND',
+    res.status(500).json({
+      error: error.message,
+      message: 'Error occured while creating article',
     });
   }
 };
@@ -106,9 +106,9 @@ exports.updateArticle = async (req, res) => {
       data: { article },
     });
   } catch (error) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'URL NOT FOUND',
+    res.status(500).json({
+      error: error.message,
+      message: "Error occured while updating article",
     });
   }
 };
@@ -165,10 +165,9 @@ exports.deleteArticle = async (req, res) => {
       message: 'Article Deleted Successful!',
     });
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'URL NOT FOUND',
+    res.status(500).json({
+      error: err.message,
+      message: 'Error occured while deleting article',
     });
-    console.log(err);
   }
 };
