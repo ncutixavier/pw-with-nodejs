@@ -1,7 +1,7 @@
-const Article = require('./../models/articleModel');
-const updateStats = require('../utils/updateStats');
-const Stats = require('../models/statsModel');
-const stats_id = '61ca156d6cc23b0570c15ec3';
+const Article = require("./../models/articleModel");
+const updateStats = require("../utils/updateStats");
+const Stats = require("../models/statsModel");
+const stats_id = "61ca156d6cc23b0570c15ec3";
 
 exports.getAllArticle = async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ exports.getAllArticle = async (req, res, next) => {
     if (articles.length > 0) {
       updateStats.updateBlogStats();
       res.status(200).json({
-        status: 'Success',
+        status: "Success",
         Results: articles.length,
         data: { articles },
       });
@@ -18,7 +18,7 @@ exports.getAllArticle = async (req, res, next) => {
     return next(
       res.status(500).json({
         error: error.message,
-        message: 'Error occured while getting all articles',
+        message: "Error occured while getting all articles",
       })
     );
   }
@@ -59,50 +59,64 @@ exports.getArticle = async (req, res) => {
         });
       }
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: { article },
       });
     } else {
       res.status(404).json({
-        status: 'fail',
-        message: 'Article has not found',
+        status: "fail",
+        message: "Article has not found",
       });
     }
   } catch (error) {
     res.status(500).json({
       error: error.message,
-      message: 'Error occured while getting article',
+      message: "Error occured while getting article",
     });
   }
 };
 
 exports.createNewArticle = async (req, res) => {
   try {
+    if (!req.body.title || !req.body.content || !req.file) {
+      return res.status(400).json({
+        message: "Please fill all fields",
+      });
+    }
     const newArticle = await Article.create({
       title: req.body.title,
       image: req.file.path || req.body.image,
       content: req.body.content,
     });
     res.status(201).json({
-      status: 'created',
+      status: "created",
       data: { newArticle },
     });
   } catch (error) {
     res.status(500).json({
       error: error.message,
-      message: 'Error occured while creating article',
+      message: "Error occured while creating article",
     });
   }
 };
 
 exports.updateArticle = async (req, res) => {
   try {
-    const article = await Article.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const article = await Article.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          image: req.body.image,
+        },
+      },
+      {
+        new: true,
+      }
+    );
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: { article },
     });
   } catch (error) {
@@ -124,13 +138,13 @@ exports.updateArticleComment = async (req, res) => {
       }
     );
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: { article },
     });
   } catch (error) {
     res.status(404).json({
-      status: 'fail',
-      message: 'URL NOT FOUND',
+      status: "fail",
+      message: "URL NOT FOUND",
     });
   }
 };
@@ -146,13 +160,13 @@ exports.deleteArticleComment = async (req, res) => {
       }
     );
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: { article },
     });
   } catch (error) {
     res.status(404).json({
-      status: 'fail',
-      message: 'URL NOT FOUND',
+      status: "fail",
+      message: "URL NOT FOUND",
     });
   }
 };
@@ -161,13 +175,13 @@ exports.deleteArticle = async (req, res) => {
   try {
     await Article.findByIdAndDelete(req.params.id);
     res.status(200).json({
-      status: 'success',
-      message: 'Article Deleted Successful!',
+      status: "success",
+      message: "Article Deleted Successful!",
     });
   } catch (err) {
     res.status(500).json({
       error: err.message,
-      message: 'Error occured while deleting article',
+      message: "Error occured while deleting article",
     });
   }
 };

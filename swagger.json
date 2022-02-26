@@ -247,7 +247,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Blogs"],
         "summary": "Update an article",
         "description": "Update an article",

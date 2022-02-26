@@ -1,10 +1,11 @@
-const express = require('express');
-const articleController = require('./../controllers/articleControllers')
-const authController = require('./../controllers/authControllers')
+const express = require("express");
+const articleController = require("./../controllers/articleControllers");
+const authController = require("./../controllers/authControllers");
+const { checkIfArticleExist } = require("./../middlewares/articles.middleware");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
-const router = express.Router()
+const router = express.Router();
 require("dotenv").config();
 
 cloudinary.config({
@@ -22,8 +23,8 @@ const storage = new CloudinaryStorage({
 
 const uploadImage = multer({ storage: storage });
 
-router.patch('/comment/:id', articleController.updateArticleComment)
-router.patch('/deleteComment/:id', articleController.deleteArticleComment)
+router.patch("/comment/:id", articleController.updateArticleComment);
+router.patch("/deleteComment/:id", articleController.deleteArticleComment);
 
 router
   .route("/")
@@ -35,13 +36,17 @@ router
   );
 
 router
-  .route('/:id')
+  .route("/:id")
   .get(articleController.getArticle)
-  .patch(authController.protect, articleController.updateArticle)
+  .patch(
+    authController.protect,
+    checkIfArticleExist,
+    articleController.updateArticle
+  )
   .delete(
     authController.protect,
+    checkIfArticleExist,
     articleController.deleteArticle
-  )
+  );
 
-
-module.exports = router
+module.exports = router;
