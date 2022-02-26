@@ -1,7 +1,14 @@
 const Article = require("./../models/articleModel");
 const updateStats = require("../utils/updateStats");
+const mongooseErrorResponse = require("../utils/response.util");
 const Stats = require("../models/statsModel");
 const stats_id = "61ca156d6cc23b0570c15ec3";
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 exports.getAllArticle = async (req, res, next) => {
   try {
@@ -15,12 +22,7 @@ exports.getAllArticle = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(
-      res.status(500).json({
-        error: error.message,
-        message: "Error occured while getting all articles",
-      })
-    );
+    mongooseErrorResponse(res, error);
   }
 };
 
@@ -69,10 +71,7 @@ exports.getArticle = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-      message: "Error occured while getting article",
-    });
+    mongooseErrorResponse(res, error);
   }
 };
 
@@ -83,6 +82,7 @@ exports.createNewArticle = async (req, res) => {
         message: "Please fill all fields",
       });
     }
+    
     const newArticle = await Article.create({
       title: req.body.title,
       image: req.file.path || req.body.image,
@@ -93,37 +93,23 @@ exports.createNewArticle = async (req, res) => {
       data: { newArticle },
     });
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-      message: "Error occured while creating article",
-    });
+    mongooseErrorResponse(res, error);
   }
 };
 
 exports.updateArticle = async (req, res) => {
+  const { id } = req.params;
   try {
-    const article = await Article.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          title: req.body.title,
-          content: req.body.content,
-          image: req.body.image,
-        },
-      },
-      {
-        new: true,
-      }
-    );
+    const article = await Article.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
     res.status(200).json({
       status: "success",
       data: { article },
     });
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-      message: "Error occured while updating article",
-    });
+    mongooseErrorResponse(res, error);
   }
 };
 
@@ -173,15 +159,15 @@ exports.deleteArticleComment = async (req, res) => {
 
 exports.deleteArticle = async (req, res) => {
   try {
+    let img = req.article.image.split("/")
+    const cloudinaryId = img[img.length - 1].split(".")[0];
+    await cloudinary.uploader.destroy(cloudinaryId);
     await Article.findByIdAndDelete(req.params.id);
     res.status(200).json({
-      status: "success",
       message: "Article Deleted Successful!",
     });
   } catch (err) {
-    res.status(500).json({
-      error: err.message,
-      message: "Error occured while deleting article",
-    });
+    console.log(err);
+    mongooseErrorResponse(res, err);
   }
 };

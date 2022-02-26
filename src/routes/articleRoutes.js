@@ -16,9 +16,9 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: "ARTICLES",
-  },
+  // params: {
+  //   folder: "ARTICLES",
+  // },
 });
 
 const uploadImage = multer({ storage: storage });
