@@ -308,6 +308,90 @@
           }
         }
       }
+    },
+    "/api/v1/blogs/{id}/comments": {
+      "get": {
+        "tags": ["Comments"],
+        "summary": "Get all article comments",
+        "description": "Get all article comments",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Comments"],
+        "summary": "Create an article comment",
+        "description": "Create an article comment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Comment object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Comments"],
+        "summary": "Delete an article comments",
+        "description": "Delete an article comments",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of article to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Comment object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comments"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -370,6 +454,26 @@
         },
         "image": {
           "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the comment author"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "Comments": {
+      "type": "object",
+      "properties": {
+        "comments": {
+          "type": "array"
         }
       }
     }

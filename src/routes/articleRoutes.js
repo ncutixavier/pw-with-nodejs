@@ -1,5 +1,6 @@
 const express = require("express");
 const articleController = require("./../controllers/articleControllers");
+const commentController = require("../controllers/commentControllers");
 const authController = require("./../controllers/authControllers");
 const { checkIfArticleExist } = require("./../middlewares/articles.middleware");
 const cloudinary = require("cloudinary").v2;
@@ -25,6 +26,12 @@ const uploadImage = multer({ storage: storage });
 
 router.patch("/comment/:id", articleController.updateArticleComment);
 router.patch("/deleteComment/:id", articleController.deleteArticleComment);
+
+router
+  .route("/:id/comments")
+  .get(checkIfArticleExist, commentController.getComments)
+  .post(checkIfArticleExist, commentController.addComment)
+  .delete(authController.protect, commentController.deleteArticleComments);
 
 router
   .route("/")
