@@ -29,8 +29,6 @@ const articleSchema = new mongoose.Schema({
         default: Date.now(),
         required: [true, 'An article must have a date']
     },
-
-    comments: []
 })
 
 const Article = mongoose.model('Article', articleSchema)
